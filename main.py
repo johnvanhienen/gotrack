@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 import datetime
-import click
 
 from common import Common
 from location import Location
 
-APIKEY = "TeNJ_DUrmIglojngTQzPSXYj4aEI-aJMMWbcZ7vbOno"
+APIKEY = ""
 
-homelocation = "cornelis houtmanstraat 13 Lemmer"
-worklocation = "wapenrustlaan 11 Apeldoorn"
+homelocation = ""
+worklocation = ""
 
-outputfile = "/shares/data/gotrack.csv"
+outputfile = ""
 
-
-@click.command()
-@click.option
 
 def main():
     # Set departure and destination based on time

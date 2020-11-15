@@ -1,5 +1,4 @@
 # gotrack
-## About
 Track the duration of your travel time between home and work and export it to a csv file. 
 
 ## Installation
