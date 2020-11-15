@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 import datetime
+import os
 
 from common import Common
 from location import Location
 
-APIKEY = ""
+apikey = ""
+outputfile = ""
 
 homelocation = ""
 worklocation = ""
 
-outputfile = ""
-
-
 def main():
+    if os.environ['GOTRACK_APIKEY']:
+        apikey = os.environ['GOTRACK_APIKEY']
+
+    if os.environ['GOTRACK_OUTPUTFILE']:
+        outputfile = os.environ['GOTRACK_OUTPUTFILE']
+
     # Set departure and destination based on time
     if Common.is_time_between(datetime.time(5, 0), datetime.time(12, 0)):
         departure, destination = homelocation, worklocation
@@ -20,10 +25,10 @@ def main():
         departure, destination = worklocation, homelocation
 
     # Retrieve longitude and latitude
-    departure_pos = Location.lookupposition(departure, APIKEY)
-    destination_pos = Location.lookupposition(destination, APIKEY)
+    departure_pos = Location.lookupposition(departure, apikey)
+    destination_pos = Location.lookupposition(destination, apikey)
 
-    route = Location.calculateroute(departure_pos, destination_pos, APIKEY)
+    route = Location.calculateroute(departure_pos, destination_pos, apikey)
 
     trip_departuretime = Common.formattime(
         route['routes'][0]['sections'][0]['departure']['time'])
@@ -38,8 +43,8 @@ def main():
                'Destination', 'Arrival time', 'Duration']
     data = [current_date,  departure, trip_departuretime,
             destination, trip_arrivaltime, trip_minutes]
-
-    # Common.writetofile(data, headers, outputfile)
+    
+    Common.writetofile(data, headers, outputfile)
 
 
 main()
