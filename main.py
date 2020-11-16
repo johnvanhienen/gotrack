@@ -1,23 +1,31 @@
 #!/usr/bin/env python3
 import datetime
-import os
+import os, sys
+import click
+import logging
 
 from common import Common
 from location import Location
 
-apikey = ""
 outputfile = ""
 
-homelocation = ""
-worklocation = ""
-
-def main():
+@click.command()
+@click.option('-a','--apikey', help='Apikey from developer.here.com')
+@click.option('-h','--homelocation', required=True, help='Origin/home location')
+@click.option('-o','--outputfile', default="./gotrack.csv", help='Location and name of csv output file')
+@click.option('-w','--worklocation', required=True, help='Destination/work location')
+def main(apikey, homelocation, outputfile, worklocation):
     if os.environ['GOTRACK_APIKEY']:
         apikey = os.environ['GOTRACK_APIKEY']
 
     if os.environ['GOTRACK_OUTPUTFILE']:
         outputfile = os.environ['GOTRACK_OUTPUTFILE']
 
+    if not apikey:
+        logging.fatal("Missing apikey from developer.here.com")
+        sys.exit(1)
+
+    print(homelocation, worklocation, outputfile, apikey)
     # Set departure and destination based on time
     if Common.is_time_between(datetime.time(5, 0), datetime.time(12, 0)):
         departure, destination = homelocation, worklocation
@@ -43,8 +51,9 @@ def main():
                'Destination', 'Arrival time', 'Duration']
     data = [current_date,  departure, trip_departuretime,
             destination, trip_arrivaltime, trip_minutes]
-    
+
     Common.writetofile(data, headers, outputfile)
 
 
-main()
+if __name__ == '__main__':
+    main()
