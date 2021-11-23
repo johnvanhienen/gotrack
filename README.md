@@ -1,7 +1,8 @@
 # gotrack
-Track the duration of your travel time between home and work and export it to a csv file. 
+Track the duration of your travel time between home and work and export it to a csv file.
 
 ## Installation
+Optional: Create a virtual env: `python3 -m venv ./venv` and activate: `source venv/bin/activate`
 1. Install depencies from `requirements.txt` with `pip install -r requirements.txt`.
 2. Create an API key on
 [developer.here.com](https://developer.here.com/develop/rest-apis).
